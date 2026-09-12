@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e13">
+<title>VeloSense — لوحة قيادة ذكية للدراجات</title>
+<meta name="description" content="جهاز يُركّب على الدراجة: ملاحة مصمّمة للدرّاجين بالرياض، قياس سرعة دقيق، وكشف حوادث يطلب النجدة عنك.">
+
+<meta property="og:title" content="VeloSense — لوحة قيادة ذكية للدراجات">
+<meta property="og:description" content="ملاحة للدرّاجين بالرياض، قياس سرعة دقيق، وكشف حوادث يطلب النجدة عنك.">
+<meta property="og:type" content="website">
+
+<style>
+  /* لوحة الألوان نفسها الموجودة بالكونسول — الموقع والأداة يجب أن يُقرآ كمنتج واحد */
+  :root{
+    --bg:#0b0e13; --panel:#12151b; --panel2:#171b22;
+    --ink:#eef1f4; --ink2:rgba(238,241,244,.62); --muted:#5b6472;
+    --amber:#ffb020; --good:#37d67a; --warn:#ff4757; --blue:#4aa3ff;
+    --line:rgba(238,241,244,.09);
+    --ui:"SF Arabic","Segoe UI",system-ui,-apple-system,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono",Consolas,monospace;
+    --wrap:1080px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%; scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--ink); font-family:var(--ui);
+    line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} *{animation:none!important; transition:none!important} }
+
+  .wrap{max-width:var(--wrap); margin:0 auto; padding:0 22px}
+  section{padding:clamp(56px,9vw,104px) 0; border-top:1px solid var(--line)}
+  h2{font-size:clamp(23px,3.4vw,34px); font-weight:800; margin:0 0 10px; letter-spacing:-.02em}
+  .lede{color:var(--ink2); font-size:clamp(15px,1.7vw,17px); max-width:62ch; margin:0 0 34px}
+  .eyebrow{
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.16em;
+    color:var(--amber); text-transform:uppercase; margin:0 0 10px;
+  }
+
+  /* ── شريط علوي ── */
+  header{
+    position:sticky; top:0; z-index:50; backdrop-filter:blur(14px);
+    background:rgba(11,14,19,.82); border-bottom:1px solid var(--line);
+  }
+  .bar{display:flex; align-items:center; gap:14px; height:62px}
+  .logo{display:flex; align-items:center; gap:9px; font-weight:800; font-size:17px; letter-spacing:-.01em}
+  .logo i{
+    width:26px; height:26px; border-radius:8px; display:grid; place-items:center;
+    background:linear-gradient(145deg,var(--amber),#e08c00); color:#0a0c10;
+    font-style:normal; font-size:15px; font-weight:900;
+  }
+  .bar nav{margin-inline-start:auto; display:flex; align-items:center; gap:6px}
+  .bar nav a{
+    color:var(--ink2); text-decoration:none; font-size:14px; font-weight:600;
+    padding:8px 12px; border-radius:9px;
+  }
+  .bar nav a:hover{color:var(--ink); background:var(--panel2)}
+  .bar nav a.cta{background:var(--amber); color:#0a0c10; font-weight:800}
+  .bar nav a.cta:hover{background:#ffc247}
+  @media (max-width:640px){ .bar nav a:not(.cta){display:none} }
+
+  /* ── الواجهة ── */
+  .hero{
+    padding:clamp(54px,9vw,96px) 0 clamp(46px,7vw,80px); border-top:none;
+    background:
+      radial-gradient(900px 420px at 78% -8%, rgba(255,176,32,.14), transparent 62%),
+      radial-gradient(700px 380px at 8% 8%, rgba(74,163,255,.08), transparent 60%);
+  }
+  .hero-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:clamp(28px,5vw,56px); align-items:center}
+  @media (max-width:860px){ .hero-grid{grid-template-columns:1fr} }
+  .hero h1{
+    font-size:clamp(36px,6.4vw,62px); line-height:1.1; margin:12px 0 16px;
+    font-weight:900; letter-spacing:-.035em;
+  }
+  .hero h1 span{
+    background:linear-gradient(180deg,var(--amber),#d98a00);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero p{color:var(--ink2); font-size:clamp(15.5px,2vw,18px); max-width:54ch; margin:0 0 28px}
+  .btns{display:flex; flex-wrap:wrap; gap:11px; margin-bottom:18px}
+  .btn{
+    display:inline-flex; align-items:center; gap:9px; text-decoration:none;
+    padding:14px 22px; border-radius:12px; font-weight:800; font-size:15px;
+    border:1px solid transparent; transition:transform .12s ease, background .15s ease;
+  }
+  .btn:active{transform:translateY(1px)}
+  .btn-1{background:var(--amber); color:#0a0c10}
+  .btn-1:hover{background:#ffc247}
+  .btn-2{background:var(--panel2); color:var(--ink); border-color:var(--line)}
+  .btn-2:hover{border-color:rgba(238,241,244,.22)}
+  .note{font-size:12.5px; color:var(--muted); display:flex; gap:7px; align-items:flex-start; max-width:46ch}
+  .note b{color:var(--ink2); font-weight:600}
+
+  /* ── شاشة الجهاز المرسومة ── */
+  .device{
+    background:var(--panel); border:1px solid var(--line); border-radius:20px;
+    padding:14px; box-shadow:0 30px 70px -34px rgba(0,0,0,.95);
+  }
+  .screen{
+    background:#0a0c10; border:1px solid rgba(238,241,244,.06); border-radius:13px;
+    aspect-ratio:480/320; display:grid; grid-template-columns:1fr 1fr; overflow:hidden;
+  }
+  .scr-l{display:grid; place-items:center; border-inline-end:1px solid var(--line); padding:10px}
+  .spd{font-family:var(--mono); font-size:clamp(40px,9vw,66px); font-weight:900; line-height:1; letter-spacing:-.04em}
+  .spd small{display:block; font-size:11px; font-weight:600; color:var(--muted); letter-spacing:.22em; margin-top:8px; font-family:var(--ui)}
+  .scr-r{display:flex; flex-direction:column; justify-content:center; gap:12px; padding:14px}
+  .arrow{font-size:clamp(28px,6vw,44px); color:var(--amber); line-height:1; text-align:center}
+  .dist{font-family:var(--mono); font-size:clamp(15px,3vw,21px); text-align:center; font-weight:700}
+  .street{font-size:12px; color:var(--ink2); text-align:center}
+  .chips{display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin-top:2px}
+  .chip{font-family:var(--mono); font-size:10px; padding:3px 8px; border-radius:99px; background:var(--panel2); color:var(--ink2)}
+  .device-cap{text-align:center; font-size:12px; color:var(--muted); margin-top:12px}
+
+  /* ── بطاقات ── */
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:14px}
+  .card{
+    background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:24px;
+    transition:border-color .18s ease, transform .18s ease;
+  }
+  .card:hover{border-color:rgba(255,176,32,.3); transform:translateY(-2px)}
+  .card .ic{
+    width:40px; height:40px; border-radius:11px; display:grid; place-items:center;
+    background:rgba(255,176,32,.12); font-size:19px; margin-bottom:14px;
+  }
+  .card h3{margin:0 0 7px; font-size:16.5px; font-weight:700}
+  .card p{margin:0; color:var(--ink2); font-size:14px}
+  .card .spec{
+    margin-top:13px; padding-top:13px; border-top:1px solid var(--line);
+    font-family:var(--mono); font-size:11.5px; color:var(--muted); line-height:1.8;
+  }
+
+  /* ── إحصاءات ── */
+  .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px; margin-top:34px}
+  .stat{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:20px; text-align:center}
+  .stat b{display:block; font-family:var(--mono); font-size:clamp(24px,4vw,32px); font-weight:800; color:var(--amber); letter-spacing:-.02em}
+  .stat span{font-size:12.5px; color:var(--ink2)}
+
+  /* ── السلامة ── */
+  .safety{
+    background:linear-gradient(rgba(255,71,87,.05),rgba(255,71,87,.05)),var(--panel);
+    border:1px solid rgba(255,71,87,.24); border-radius:18px; padding:clamp(24px,4vw,36px);
+  }
+  .chain{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; margin-top:24px}
+  .link{background:rgba(11,14,19,.55); border:1px solid var(--line); border-radius:13px; padding:17px; position:relative}
+  .link i{
+    position:absolute; top:-9px; inset-inline-start:16px; font-style:normal;
+    font-family:var(--mono); font-size:10.5px; font-weight:700; color:#0a0c10;
+    background:var(--warn); padding:2px 8px; border-radius:99px;
+  }
+  .link b{display:block; font-size:14px; margin-bottom:4px; margin-top:4px}
+  .link span{font-size:12.5px; color:var(--ink2)}
+
+  /* ── التذييل ── */
+  footer{border-top:1px solid var(--line); padding:40px 0; color:var(--muted); font-size:13px}
+  .foot{display:flex; flex-wrap:wrap; gap:14px; align-items:center; justify-content:space-between}
+  footer a{color:var(--ink2); text-decoration:none}
+  footer a:hover{color:var(--amber)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <div class="logo"><i>V</i> VeloSense</div>
+    <nav>
+      <a href="#device">الجهاز</a>
+      <a href="#sensors">الحساسات</a>
+      <a href="#safety">السلامة</a>
+      <a href="#app">التطبيق</a>
+      <a class="cta" href="map/">افتح الخريطة</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">مشروع تخرّج · الرياض</p>
+      <h1>دراجتك تعرف الطريق،<br><span>وتعرف متى تطلب النجدة</span></h1>
+      <p>
+        لوحة قيادة تُركّب على الجدنون: تدلّك على مسار مصمَّم للدرّاجين لا للسيارات،
+        وتقيس سرعتك بدقّة، وإن وقعت — تطلب المساعدة عنك.
+      </p>
+      <div class="btns">
+        <a class="btn btn-1" href="map/">افتح الخريطة ←</a>
+        <a class="btn btn-2" href="#device">شوف الجهاز</a>
+      </div>
+      <p class="note">
+        <span>⚡</span>
+        <span><b>الخريطة تعمل بأي متصفح بلا تثبيت.</b>
+        وربطها بالجهاز عبر البلوتوث يحتاج Chrome أو Edge على الكمبيوتر أو أندرويد —
+        الآيفون لا يدعم بلوتوث الويب، ولهذا بنينا له تطبيقاً أصلياً.</span>
+      </p>
+    </div>
+
+    <div>
+      <div class="device" aria-label="محاكاة شاشة الجهاز">
+        <div class="screen">
+          <div class="scr-l">
+            <div>
+              <div class="spd" id="spd">24</div>
+              <small>كم/س</small>
+            </div>
+          </div>
+          <div class="scr-r">
+            <div class="arrow">↰</div>
+            <div class="dist" id="dist">180 م</div>
+            <div class="street">طريق الملك عبدالله</div>
+            <div class="chips">
+              <span class="chip">31°</span>
+              <span class="chip">612 م</span>
+              <span class="chip">BLE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="device-cap">شاشة ٣٫٥ بوصة · ٤٨٠×٣٢٠ · بالعرض</p>
+    </div>
+  </div>
+</section>
+
+<section id="problem">
+  <div class="wrap">
+    <p class="eyebrow">لماذا</p>
+    <h2>خرائط السيارات لا تصلح للدرّاجين</h2>
+    <p class="lede">
+      في السعودية لا تقدّم خرائط قوقل توجيهاً للدراجات. فالدرّاج أمام خيارين:
+      يتبع مسار سيارة قد يضعه على طريق سريع، أو يخمّن طريقه.
+      VeloSense يبني الخريطة من OpenStreetMap ويوجّه بمنطق مختلف — يفضّل مسارات
+      الدراجات، ويحترم اتجاه الشوارع أحادية الاتجاه، ويعاقب كثرة الانعطاف
+      لأن مساراً بعشرين لفّة ليس أفضل من آخر أطول بقليل وأسلس.
+    </p>
+    <div class="stats">
+      <div class="stat"><b>٤٨٠٧</b><span>موقع قابل للبحث</span></div>
+      <div class="stat"><b>٤</b><span>مستويات تفصيل للخريطة</span></div>
+      <div class="stat"><b>A*</b><span>توجيه على أساس الحواف</span></div>
+      <div class="stat"><b>١٤</b><span>مساراً محفوظاً بالجهاز</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="device">
+  <div class="wrap">
+    <p class="eyebrow">الجهاز</p>
+    <h2>ما الذي يركب على الدراجة</h2>
+    <p class="lede">
+      وحدة واحدة تجمع الملاحة والقياس والسلامة، تعمل بلا إنترنت —
+      لأن التغطية بوادي حنيفة أو شعيب عقلة ليست مضمونة.
+    </p>
+    <div class="cards">
+      <div class="card">
+        <div class="ic">🧠</div>
+        <h3>المعالج والشاشة</h3>
+        <p>ESP32‑S3 بشاشة ملوّنة ٣٫٥ بوصة تُقرأ تحت الشمس، مقسومة بين السرعة والاتجاه.</p>
+        <div class="spec">ESP32‑S3 · ST7796 480×320<br>SPI · وضع أفقي</div>
+      </div>
+      <div class="card">
+        <div class="ic">📡</div>
+        <h3>ربط بالجوال</h3>
+        <p>بلوتوث منخفض الطاقة ينقل المسار للجهاز، ويعيد السرعة والحالة وتنبيه الحادث للتطبيق.</p>
+        <div class="spec">BLE · بثّ كل ثانية<br>يعمل والشاشة مقفلة</div>
+      </div>
+      <div class="card">
+        <div class="ic">💡</div>
+        <h3>إشارات انعطاف</h3>
+        <p>شريطا LED على الجانبين يضيئان تلقائياً حين يستشعر الجهاز بداية اللفّة.</p>
+        <div class="spec">WS2812B · ٨ لكل جانب<br>تشغيل يدوي أو تلقائي</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="sensors">
+  <div class="wrap">
+    <p class="eyebrow">القياس</p>
+    <h2>ثلاثة حساسات، وقرار واحد</h2>
+    <p class="lede">
+      القياس هنا ليس قراءة رقم فحسب — بل معالجة تجعل الرقم صادقاً عند السرعات
+      البطيئة وعند التوقّف، وهما الحالتان اللتان تُخطئ فيهما أغلب العدّادات.
+    </p>
+    <div class="cards">
+      <div class="card">
+        <div class="ic">⚡</div>
+        <h3>السرعة</h3>
+        <p>
+          تُقاس بطريقة T المعتمدة على زمن عدّة نبضات لا نبضة واحدة، فتستقرّ القراءة
+          بلا تأخير. وإن انقطعت النبضات، يهبط الرقم فوراً بدل أن يتجمّد.
+        </p>
+        <div class="spec">حساس مغناطيسي على العجلة<br>نافذة تكيّفية + سقف زمن الانتظار</div>
+      </div>
+      <div class="card">
+        <div class="ic">🌡️</div>
+        <h3>الجو والارتفاع</h3>
+        <p>
+          حرارة ورطوبة وضغط جوي، ومنها الارتفاع ومؤشّر الحرارة المحسوس — وهو ما
+          يهمّ فعلاً براكب في صيف الرياض.
+        </p>
+        <div class="spec">BME680 · I²C<br>مؤشّر حرارة + نقطة ندى + ارتفاع</div>
+      </div>
+      <div class="card">
+        <div class="ic">🎯</div>
+        <h3>الحركة والميل</h3>
+        <p>
+          تسارع وجيروسكوب يكشفان الصدمة وبداية الانعطاف. والميل يُحسب من السرعة
+          ومعدّل الدوران معاً، لأن التسارع وحده لا يرى اللفّة المتّزنة.
+        </p>
+        <div class="spec">MPU6050 · ٦ محاور<br>معايرة ترفض القراءة أثناء الحركة</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="safety">
+  <div class="wrap">
+    <p class="eyebrow">السلامة</p>
+    <h2>إن وقعت ولم تستطع الوصول لجوالك</h2>
+    <div class="safety">
+      <p style="margin:0; color:var(--ink2); max-width:64ch">
+        أخطر ما في حادث الدرّاج المنفرد أنه قد يبقى دون أن يعلم أحد. فالجهاز
+        لا ينتظر أن تطلب المساعدة — يطلبها عنك، ويعطيك ثلاثين ثانية لتوقفه إن كنت بخير.
+      </p>
+      <div class="chain">
+        <div class="link"><i>١</i><b>رصد الصدمة</b><span>تسارع يتجاوز ٤g بينما كنت تسير فعلاً — فالمطبّ وأنت واقف ليس حادثاً.</span></div>
+        <div class="link"><i>٢</i><b>عدّ ثلاثين ثانية</b><span>على شاشة الجهاز والجوال معاً، بعدّاد واحد لا عدّادين ينحرفان.</span></div>
+        <div class="link"><i>٣</i><b>أي حركة تُلغي</b><span>إن نهضت أو تحرّكت يُلغى الإنذار تلقائياً بلا لمس شيء.</span></div>
+        <div class="link"><i>٤</i><b>رسالة بموقعك</b><span>تصل جهة الطوارئ برابط خريطة مباشر، لا إحداثيات خام.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="app">
+  <div class="wrap">
+    <p class="eyebrow">التطبيق</p>
+    <h2>الجوال يكمل ما لا يستطيعه الجهاز</h2>
+    <p class="lede">
+      تخطّط المسار على الخريطة وترسله للجهاز بضغطة، ويصلك تنبيه الحادث على شاشة
+      كاملة أياً كان ما تفعله. والتطبيق يبقى موصولاً والشاشة مقفلة.
+    </p>
+    <div class="cards">
+      <div class="card">
+        <div class="ic">🗺️</div>
+        <h3>الخريطة على الويب</h3>
+        <p>نفس خريطة التطبيق تعمل بأي متصفح بلا تثبيت. جرّبها الآن.</p>
+        <div class="spec"><a href="map/" style="color:var(--amber); text-decoration:none">افتح الخريطة ←</a></div>
+      </div>
+      <div class="card">
+        <div class="ic">📱</div>
+        <h3>آيفون</h3>
+        <p>تطبيق أصلي لأن بلوتوث الويب غير موجود على iOS، ولأن الإشعار يجب أن يصل والشاشة مقفلة.</p>
+        <div class="spec">يُثبَّت عبر Sideloadly حالياً</div>
+      </div>
+      <div class="card">
+        <div class="ic">🤖</div>
+        <h3>أندرويد</h3>
+        <p>نفس التطبيق، ومعه يعمل بلوتوث الويب بالمتصفح أيضاً إن فضّلت الخريطة مباشرة.</p>
+        <div class="spec">ملف APK مباشر</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>VeloSense · مشروع تخرّج · الرياض</div>
+    <div>بيانات الخريطة من <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a></div>
+  </div>
+</footer>
+
+<script>
+  /*
+    عدّاد الواجهة يتحرّك قليلاً ليبدو حيّاً. يتوقّف احتراماً لتفضيل تقليل الحركة،
+    ويتوقّف كذلك حين تكون الصفحة بالخلفية — لا داعي لإشغال معالج زائر لا ينظر.
+  */
+  (function(){
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+    var spd = document.getElementById('spd'), dist = document.getElementById('dist');
+    if (!spd || !dist) return;
+    var v = 24, d = 180, t;
+    function tick(){
+      v += (Math.random() * 2 - 1);
+      v = Math.max(18, Math.min(31, v));
+      spd.textContent = Math.round(v);
+      d -= Math.round(4 + Math.random() * 6);
+      if (d < 20) d = 240;
+      dist.textContent = d + ' م';
+    }
+    function start(){ stop(); t = setInterval(tick, 900); }
+    function stop(){ if (t) { clearInterval(t); t = null; } }
+    document.addEventListener('visibilitychange', function(){
+      document.hidden ? stop() : start();
+    });
+    start();
+  })();
+</script>
+
+</body>
+</html>
