@@ -204,6 +204,20 @@
     max-height:50vh; overflow-y:auto; box-shadow:0 6px 22px -8px rgba(0,0,0,.7);
   }
   .savedlist[hidden]{display:none}
+  .connmenu{
+    position:absolute; top:110px; inset-inline-start:12px; z-index:24; width:min(230px,calc(100vw - 24px));
+    background:var(--sheet); border:1px solid var(--line); border-radius:13px; overflow:hidden;
+    box-shadow:0 6px 22px -8px rgba(0,0,0,.7);
+  }
+  .connmenu[hidden]{display:none}
+  .cm{
+    all:unset; display:flex; align-items:baseline; gap:9px; width:100%; box-sizing:border-box;
+    padding:12px 14px; cursor:pointer; border-bottom:1px solid var(--line);
+  }
+  .cm:last-child{border-bottom:none}
+  .cm:hover,.cm:focus-visible{background:#1a1e26}
+  .cm b{font-size:13.5px; font-weight:700}
+  .cm span{font-size:11px; color:var(--muted)}
   .sr{all:unset; display:flex; align-items:center; justify-content:space-between; gap:10px; width:100%; padding:11px 14px; cursor:pointer; border-bottom:1px solid var(--line); box-sizing:border-box}
   .sr:last-child{border-bottom:none}
   .sr:hover,.sr:focus-visible{background:#1a1e26}
@@ -300,6 +314,10 @@
 
   <!-- شارة الاتصال بالجهاز -->
   <button class="connchip" id="connChip">🔌 اربط الجهاز</button>
+  <div class="connmenu" id="connMenu" hidden>
+    <button class="cm" data-t="ble"><b>📶 بلوتوث</b><span>بلا أسلاك</span></button>
+    <button class="cm" data-t="serial"><b>🔌 كبل USB</b><span>للاختبار</span></button>
+  </div>
 
   <!-- المسارات المحفوظة (نفس العشرة المخزّنة بالجهاز) -->
   <button class="connchip savedchip" id="savedChip">🚵 المسارات المحفوظة</button>
@@ -1017,17 +1035,53 @@ async function connectBle(){
   bleGps=await svc.getCharacteristic(CH_GPS);
   transport='ble'; connChip.classList.add('on'); connChip.textContent='📶 بلوتوث متصل';
 }
-connChip.onclick=async ()=>{
-  if(transport){ showToast('الجهاز متصل بالفعل',1500); return; }
+const connMenu=$('connMenu');
+
+// ما يدعمه هذا المتصفح فعلاً. الآيفون لا يملك أياً منهما داخل سفاري،
+// ولهذا يوجد التطبيق الأصلي — ونقولها له بدل أن يظنّ العطل بجهازه.
+function availableTransports(){
+  const t=[];
+  if(navigator.bluetooth) t.push('ble');
+  if('serial' in navigator) t.push('serial');
+  return t;
+}
+
+async function connectVia(kind){
   connChip.classList.add('busy');
-  // نفضّل USB إن مدعوم، وإلا بلوتوث
   try{
-    if('serial' in navigator){ await connectSerial(); }
-    else if(navigator.bluetooth){ await connectBle(); }
-    else { showToast('افتح بمتصفح Edge/Chrome للاتصال بالجهاز',3000); connChip.classList.remove('busy'); return; }
+    if(kind==='ble') await connectBle(); else await connectSerial();
     showToast('تم ربط الجهاز ✓',1500);
-  }catch(e){ connChip.classList.remove('busy'); connChip.textContent='🔌 اربط الجهاز'; showToast('تعذّر الاتصال: '+e.message,2600); }
+  }catch(e){
+    connChip.classList.remove('busy');
+    connChip.textContent='🔌 اربط الجهاز';
+    // إلغاء المستخدم لنافذة الاختيار ليس خطأً يستحق إنذاراً
+    if(!/cancel|NotFoundError|User cancelled/i.test(e.name+' '+e.message))
+      showToast('تعذّر الاتصال: '+e.message,2600);
+  }
+}
+
+connChip.onclick=()=>{
+  if(transport){ showToast('الجهاز متصل بالفعل',1500); return; }
+  const av=availableTransports();
+  if(av.length===0){
+    showToast('هذا المتصفح لا يدعم الاتصال بالجهاز. استخدم Chrome أو Edge على الكمبيوتر أو أندرويد، أو تطبيق الآيفون.',4200);
+    return;
+  }
+  // خيار واحد ⇒ لا نُقحم قائمة بلا قرار
+  if(av.length===1){ connectVia(av[0]); return; }
+  connMenu.hidden=!connMenu.hidden;
 };
+
+connMenu.addEventListener('click',e=>{
+  const btn=e.target.closest('.cm'); if(!btn) return;
+  connMenu.hidden=true;
+  connectVia(btn.dataset.t);
+});
+
+// نقرة خارج القائمة تُغلقها — بلا هذا تبقى معلّقة فوق الخريطة
+document.addEventListener('click',e=>{
+  if(!connMenu.hidden && !connMenu.contains(e.target) && e.target!==connChip) connMenu.hidden=true;
+});
 
 // ═══════════ المسارات المحفوظة (نفس العشرة المخزّنة بالفيرموير) ═══════════
 const savedChip=$('savedChip'), savedListEl=$('savedList');
