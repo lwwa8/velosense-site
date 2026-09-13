@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b0e13">
 <title>VeloSense — لوحة قيادة ذكية للدراجات</title>
-<meta name="description" content="جهاز يُركّب على الدراجة: ملاحة مصمّمة للدرّاجين بالرياض، قياس سرعة دقيق، وكشف حوادث يطلب النجدة عنك.">
+<meta name="description" content="وحدة متكاملة تُثبَّت على المقود: توجيه مصمَّم لمسارات الدرّاجين، قياس لحظي دقيق، ورصد تلقائي للحوادث.">
 
 <meta property="og:title" content="VeloSense — لوحة قيادة ذكية للدراجات">
-<meta property="og:description" content="ملاحة للدرّاجين بالرياض، قياس سرعة دقيق، وكشف حوادث يطلب النجدة عنك.">
+<meta property="og:description" content="توجيه مصمَّم لمسارات الدرّاجين، قياس لحظي دقيق، ورصد تلقائي للحوادث.">
 <meta property="og:type" content="website">
 
 <style>
-  /* لوحة الألوان نفسها الموجودة بالكونسول — الموقع والأداة يجب أن يُقرآ كمنتج واحد */
+  /* لوحة الألوان نفسها الموجودة بالخريطة — الموقع والأداة يجب أن يُقرآ كمنتج واحد */
   :root{
     --bg:#0b0e13; --panel:#12151b; --panel2:#171b22;
     --ink:#eef1f4; --ink2:rgba(238,241,244,.62); --muted:#5b6472;
@@ -33,7 +33,7 @@
   .wrap{max-width:var(--wrap); margin:0 auto; padding:0 22px}
   section{padding:clamp(56px,9vw,104px) 0; border-top:1px solid var(--line)}
   h2{font-size:clamp(23px,3.4vw,34px); font-weight:800; margin:0 0 10px; letter-spacing:-.02em}
-  .lede{color:var(--ink2); font-size:clamp(15px,1.7vw,17px); max-width:62ch; margin:0 0 34px}
+  .lede{color:var(--ink2); font-size:clamp(15px,1.7vw,17px); max-width:64ch; margin:0 0 34px}
   .eyebrow{
     font-family:var(--mono); font-size:11.5px; letter-spacing:.16em;
     color:var(--amber); text-transform:uppercase; margin:0 0 10px;
@@ -71,14 +71,14 @@
   .hero-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:clamp(28px,5vw,56px); align-items:center}
   @media (max-width:860px){ .hero-grid{grid-template-columns:1fr} }
   .hero h1{
-    font-size:clamp(36px,6.4vw,62px); line-height:1.1; margin:12px 0 16px;
+    font-size:clamp(34px,6vw,58px); line-height:1.12; margin:12px 0 16px;
     font-weight:900; letter-spacing:-.035em;
   }
   .hero h1 span{
     background:linear-gradient(180deg,var(--amber),#d98a00);
     -webkit-background-clip:text; background-clip:text; color:transparent;
   }
-  .hero p{color:var(--ink2); font-size:clamp(15.5px,2vw,18px); max-width:54ch; margin:0 0 28px}
+  .hero p{color:var(--ink2); font-size:clamp(15.5px,2vw,18px); max-width:56ch; margin:0 0 28px}
   .btns{display:flex; flex-wrap:wrap; gap:11px; margin-bottom:18px}
   .btn{
     display:inline-flex; align-items:center; gap:9px; text-decoration:none;
@@ -90,10 +90,10 @@
   .btn-1:hover{background:#ffc247}
   .btn-2{background:var(--panel2); color:var(--ink); border-color:var(--line)}
   .btn-2:hover{border-color:rgba(238,241,244,.22)}
-  .note{font-size:12.5px; color:var(--muted); display:flex; gap:7px; align-items:flex-start; max-width:46ch}
+  .note{font-size:12.5px; color:var(--muted); display:flex; gap:7px; align-items:flex-start; max-width:48ch}
   .note b{color:var(--ink2); font-weight:600}
 
-  /* ── شاشة الجهاز المرسومة ── */
+  /* ── شاشة الوحدة المرسومة ── */
   .device{
     background:var(--panel); border:1px solid var(--line); border-radius:20px;
     padding:14px; box-shadow:0 30px 70px -34px rgba(0,0,0,.95);
@@ -155,8 +155,6 @@
   /* ── التذييل ── */
   footer{border-top:1px solid var(--line); padding:40px 0; color:var(--muted); font-size:13px}
   .foot{display:flex; flex-wrap:wrap; gap:14px; align-items:center; justify-content:space-between}
-  footer a{color:var(--ink2); text-decoration:none}
-  footer a:hover{color:var(--amber)}
 </style>
 </head>
 <body>
@@ -165,10 +163,10 @@
   <div class="wrap bar">
     <div class="logo"><i>V</i> VeloSense</div>
     <nav>
-      <a href="#device">الجهاز</a>
-      <a href="#sensors">الحساسات</a>
+      <a href="#challenge">التحدّي</a>
+      <a href="#unit">الوحدة</a>
+      <a href="#sensing">القياس</a>
       <a href="#safety">السلامة</a>
-      <a href="#app">التطبيق</a>
       <a class="cta" href="map/">افتح الخريطة</a>
     </nav>
   </div>
@@ -178,25 +176,26 @@
   <div class="wrap hero-grid">
     <div>
       <p class="eyebrow">مشروع تخرّج · الرياض</p>
-      <h1>دراجتك تعرف الطريق،<br><span>وتعرف متى تطلب النجدة</span></h1>
+      <h1>ملاحة تعرف الطريق،<br><span>وسلامة تعرف متى تتدخّل</span></h1>
       <p>
-        لوحة قيادة تُركّب على الجدنون: تدلّك على مسار مصمَّم للدرّاجين لا للسيارات،
-        وتقيس سرعتك بدقّة، وإن وقعت — تطلب المساعدة عنك.
+        وحدة متكاملة تُثبَّت على المقود: توجيه مصمَّم لمسارات الدرّاجين لا للمركبات،
+        وقياس لحظي دقيق للسرعة والظروف المحيطة، ورصد تلقائي للحوادث يستدعي
+        المساعدة حين يتعذّر عليك طلبها.
       </p>
       <div class="btns">
         <a class="btn btn-1" href="map/">افتح الخريطة ←</a>
-        <a class="btn btn-2" href="#device">شوف الجهاز</a>
+        <a class="btn btn-2" href="#unit">تعرّف على الوحدة</a>
       </div>
       <p class="note">
         <span>⚡</span>
-        <span><b>الخريطة تعمل بأي متصفح بلا تثبيت.</b>
-        وربطها بالجهاز عبر البلوتوث يحتاج Chrome أو Edge على الكمبيوتر أو أندرويد —
-        الآيفون لا يدعم بلوتوث الويب، ولهذا بنينا له تطبيقاً أصلياً.</span>
+        <span><b>الخريطة تعمل في أي متصفح دون تثبيت.</b>
+        ويتطلّب ربطها بالوحدة عبر البلوتوث متصفّح Chrome أو Edge على الحاسوب أو أندرويد؛
+        فنظام iOS لا يتيح بلوتوث الويب، ولهذا خُصّص له تطبيق مستقل.</span>
       </p>
     </div>
 
     <div>
-      <div class="device" aria-label="محاكاة شاشة الجهاز">
+      <div class="device" aria-label="محاكاة شاشة الوحدة">
         <div class="screen">
           <div class="scr-l">
             <div>
@@ -216,97 +215,106 @@
           </div>
         </div>
       </div>
-      <p class="device-cap">شاشة ٣٫٥ بوصة · ٤٨٠×٣٢٠ · بالعرض</p>
+      <p class="device-cap">شاشة ٣٫٥ بوصة · ٤٨٠×٣٢٠ · عرض أفقي</p>
     </div>
   </div>
 </section>
 
-<section id="problem">
+<section id="challenge">
   <div class="wrap">
-    <p class="eyebrow">لماذا</p>
-    <h2>خرائط السيارات لا تصلح للدرّاجين</h2>
+    <p class="eyebrow">التحدّي</p>
+    <h2>خرائط المركبات لا تخدم الدرّاجين</h2>
     <p class="lede">
-      في السعودية لا تقدّم خرائط قوقل توجيهاً للدراجات. فالدرّاج أمام خيارين:
-      يتبع مسار سيارة قد يضعه على طريق سريع، أو يخمّن طريقه.
-      VeloSense يبني الخريطة من OpenStreetMap ويوجّه بمنطق مختلف — يفضّل مسارات
-      الدراجات، ويحترم اتجاه الشوارع أحادية الاتجاه، ويعاقب كثرة الانعطاف
-      لأن مساراً بعشرين لفّة ليس أفضل من آخر أطول بقليل وأسلس.
+      لا تتوفّر في المملكة خدمة توجيه مخصّصة للدراجات الهوائية، فيبقى أمام الدرّاج
+      خياران: اتّباع مسار مركبة قد يقوده إلى طريق سريع، أو الاعتماد على التقدير.
+      يعالج VeloSense ذلك بمنطق توجيه مختلف — يرجّح المسارات المخصّصة للدراجات،
+      ويلتزم باتجاه الشوارع أحادية الاتجاه، ويحدّ من كثرة الانعطاف، لأن مساراً
+      بعشرين انعطافة ليس أفضل من آخر أطول قليلاً وأكثر انسيابية.
     </p>
     <div class="stats">
       <div class="stat"><b>٤٨٠٧</b><span>موقع قابل للبحث</span></div>
       <div class="stat"><b>٤</b><span>مستويات تفصيل للخريطة</span></div>
-      <div class="stat"><b>A*</b><span>توجيه على أساس الحواف</span></div>
-      <div class="stat"><b>١٤</b><span>مساراً محفوظاً بالجهاز</span></div>
+      <div class="stat"><b>١٤</b><span>مساراً محفوظاً في الوحدة</span></div>
+      <div class="stat"><b>٣٠ ث</b><span>مهلة إلغاء إنذار الحادث</span></div>
     </div>
   </div>
 </section>
 
-<section id="device">
+<section id="unit">
   <div class="wrap">
-    <p class="eyebrow">الجهاز</p>
-    <h2>ما الذي يركب على الدراجة</h2>
+    <p class="eyebrow">الوحدة</p>
+    <h2>ما الذي يُثبَّت على الدراجة</h2>
     <p class="lede">
-      وحدة واحدة تجمع الملاحة والقياس والسلامة، تعمل بلا إنترنت —
-      لأن التغطية بوادي حنيفة أو شعيب عقلة ليست مضمونة.
+      وحدة واحدة تجمع الملاحة والقياس والسلامة، وتعمل دون اتصال بالإنترنت —
+      إذ لا تُضمن التغطية في المسارات الوديانية خارج النطاق العمراني.
     </p>
     <div class="cards">
       <div class="card">
-        <div class="ic">🧠</div>
-        <h3>المعالج والشاشة</h3>
-        <p>ESP32‑S3 بشاشة ملوّنة ٣٫٥ بوصة تُقرأ تحت الشمس، مقسومة بين السرعة والاتجاه.</p>
-        <div class="spec">ESP32‑S3 · ST7796 480×320<br>SPI · وضع أفقي</div>
+        <div class="ic">🖥️</div>
+        <h3>شاشة تُقرأ أثناء القيادة</h3>
+        <p>
+          عرض أفقي مقسوم بين السرعة والاتجاه، بتباين عالٍ يبقى مقروءاً تحت ضوء
+          الشمس المباشر ومن مسافة ذراع.
+        </p>
+        <div class="spec">٤٨٠×٣٢٠ · عرض أفقي<br>تنبيه مسبق قبل كل انعطاف</div>
       </div>
       <div class="card">
         <div class="ic">📡</div>
-        <h3>ربط بالجوال</h3>
-        <p>بلوتوث منخفض الطاقة ينقل المسار للجهاز، ويعيد السرعة والحالة وتنبيه الحادث للتطبيق.</p>
-        <div class="spec">BLE · بثّ كل ثانية<br>يعمل والشاشة مقفلة</div>
+        <h3>ارتباط بالهاتف</h3>
+        <p>
+          اتصال لاسلكي منخفض الطاقة ينقل المسار إلى الوحدة، ويعيد إلى التطبيق
+          السرعة والحالة وإنذار الحادث لحظةً بلحظة.
+        </p>
+        <div class="spec">بثّ دوري كل ثانية<br>يستمر والشاشة مقفلة</div>
       </div>
       <div class="card">
-        <div class="ic">💡</div>
-        <h3>إشارات انعطاف</h3>
-        <p>شريطا LED على الجانبين يضيئان تلقائياً حين يستشعر الجهاز بداية اللفّة.</p>
-        <div class="spec">WS2812B · ٨ لكل جانب<br>تشغيل يدوي أو تلقائي</div>
+        <div class="ic">🧭</div>
+        <h3>تشغيل دون اتصال</h3>
+        <p>
+          تُحفظ بيانات المسار داخل الوحدة قبل الانطلاق، فيكتمل التوجيه كاملاً
+          دون الحاجة إلى شبكة أثناء الرحلة.
+        </p>
+        <div class="spec">مسارات مخزّنة مسبقاً<br>لا يعتمد على التغطية</div>
       </div>
     </div>
   </div>
 </section>
 
-<section id="sensors">
+<section id="sensing">
   <div class="wrap">
     <p class="eyebrow">القياس</p>
-    <h2>ثلاثة حساسات، وقرار واحد</h2>
+    <h2>قياس يصمد حيث تضطرب العدّادات</h2>
     <p class="lede">
-      القياس هنا ليس قراءة رقم فحسب — بل معالجة تجعل الرقم صادقاً عند السرعات
-      البطيئة وعند التوقّف، وهما الحالتان اللتان تُخطئ فيهما أغلب العدّادات.
+      لا يقتصر القياس هنا على استخلاص رقم، بل على معالجة تُبقيه صادقاً عند السرعات
+      المنخفضة وعند التوقّف — وهما الحالتان اللتان تضطرب فيهما أغلب العدّادات.
     </p>
     <div class="cards">
       <div class="card">
         <div class="ic">⚡</div>
         <h3>السرعة</h3>
         <p>
-          تُقاس بطريقة T المعتمدة على زمن عدّة نبضات لا نبضة واحدة، فتستقرّ القراءة
-          بلا تأخير. وإن انقطعت النبضات، يهبط الرقم فوراً بدل أن يتجمّد.
+          تُحتسب من زمن عدّة دورات لا من دورة واحدة، فتستقرّ القراءة دون تأخّر
+          محسوس. وعند انقطاع الدوران تنخفض القيمة فوراً بدل أن تتجمّد على آخر رقم.
         </p>
-        <div class="spec">حساس مغناطيسي على العجلة<br>نافذة تكيّفية + سقف زمن الانتظار</div>
+        <div class="spec">نافذة حساب تكيّفية<br>حدّ أعلى محكوم بزمن الانتظار</div>
       </div>
       <div class="card">
         <div class="ic">🌡️</div>
-        <h3>الجو والارتفاع</h3>
+        <h3>الظروف المحيطة</h3>
         <p>
-          حرارة ورطوبة وضغط جوي، ومنها الارتفاع ومؤشّر الحرارة المحسوس — وهو ما
-          يهمّ فعلاً براكب في صيف الرياض.
+          حرارة ورطوبة وضغط جوي، تُشتقّ منها الحرارة المحسوسة والارتفاع —
+          وهي المؤشّرات التي تعني الدرّاج فعلياً في مناخ الرياض.
         </p>
-        <div class="spec">BME680 · I²C<br>مؤشّر حرارة + نقطة ندى + ارتفاع</div>
+        <div class="spec">حرارة محسوسة ونقطة ندى<br>ارتفاع محسوب من الضغط</div>
       </div>
       <div class="card">
         <div class="ic">🎯</div>
-        <h3>الحركة والميل</h3>
+        <h3>الحركة والاتزان</h3>
         <p>
-          تسارع وجيروسكوب يكشفان الصدمة وبداية الانعطاف. والميل يُحسب من السرعة
-          ومعدّل الدوران معاً، لأن التسارع وحده لا يرى اللفّة المتّزنة.
+          رصد التسارع ومعدّل الدوران يكشف الصدمة وبداية الانعطاف. ويُحتسب الميل
+          من السرعة ومعدّل الدوران معاً، إذ لا يكفي التسارع وحده لتمييز انعطافة متّزنة.
         </p>
-        <div class="spec">MPU6050 · ٦ محاور<br>معايرة ترفض القراءة أثناء الحركة</div>
+        <div class="spec">قياس بستّة محاور<br>معايرة ترفض القراءة أثناء الحركة</div>
       </div>
     </div>
   </div>
@@ -315,17 +323,17 @@
 <section id="safety">
   <div class="wrap">
     <p class="eyebrow">السلامة</p>
-    <h2>إن وقعت ولم تستطع الوصول لجوالك</h2>
+    <h2>حين يتعذّر عليك الوصول إلى هاتفك</h2>
     <div class="safety">
-      <p style="margin:0; color:var(--ink2); max-width:64ch">
-        أخطر ما في حادث الدرّاج المنفرد أنه قد يبقى دون أن يعلم أحد. فالجهاز
-        لا ينتظر أن تطلب المساعدة — يطلبها عنك، ويعطيك ثلاثين ثانية لتوقفه إن كنت بخير.
+      <p style="margin:0; color:var(--ink2); max-width:66ch">
+        أخطر ما في حادث الدرّاج المنفرد أن يمرّ دون علم أحد. لذلك لا تنتظر الوحدة
+        طلب المساعدة، بل تبادر إليه، وتمنحك ثلاثين ثانية لإيقافه إن كنت بخير.
       </p>
       <div class="chain">
-        <div class="link"><i>١</i><b>رصد الصدمة</b><span>تسارع يتجاوز ٤g بينما كنت تسير فعلاً — فالمطبّ وأنت واقف ليس حادثاً.</span></div>
-        <div class="link"><i>٢</i><b>عدّ ثلاثين ثانية</b><span>على شاشة الجهاز والجوال معاً، بعدّاد واحد لا عدّادين ينحرفان.</span></div>
-        <div class="link"><i>٣</i><b>أي حركة تُلغي</b><span>إن نهضت أو تحرّكت يُلغى الإنذار تلقائياً بلا لمس شيء.</span></div>
-        <div class="link"><i>٤</i><b>رسالة بموقعك</b><span>تصل جهة الطوارئ برابط خريطة مباشر، لا إحداثيات خام.</span></div>
+        <div class="link"><i>١</i><b>رصد الصدمة</b><span>تسارع يتجاوز حدّاً محدّداً أثناء حركة فعلية — فالاهتزاز والدراجة واقفة ليس حادثاً.</span></div>
+        <div class="link"><i>٢</i><b>مهلة ثلاثين ثانية</b><span>تُعرض على الوحدة والهاتف معاً من مصدر عدٍّ واحد، تفادياً لتباين رقمين في لحظة حرجة.</span></div>
+        <div class="link"><i>٣</i><b>الحركة تُلغي الإنذار</b><span>أي حركة أثناء العدّ تُلغيه تلقائياً دون تدخّل منك.</span></div>
+        <div class="link"><i>٤</i><b>إبلاغ بالموقع</b><span>تصل جهة الطوارئ رسالة تتضمّن رابط موقع مباشر بدل إحداثيات خام.</span></div>
       </div>
     </div>
   </div>
@@ -334,29 +342,29 @@
 <section id="app">
   <div class="wrap">
     <p class="eyebrow">التطبيق</p>
-    <h2>الجوال يكمل ما لا يستطيعه الجهاز</h2>
+    <h2>الهاتف يكمل ما لا تؤدّيه الوحدة</h2>
     <p class="lede">
-      تخطّط المسار على الخريطة وترسله للجهاز بضغطة، ويصلك تنبيه الحادث على شاشة
-      كاملة أياً كان ما تفعله. والتطبيق يبقى موصولاً والشاشة مقفلة.
+      تُخطَّط الرحلة على الخريطة وتُرسَل إلى الوحدة بضغطة واحدة، ويصل إنذار الحادث
+      على شاشة كاملة أياً كان ما تفعله، مع بقاء الاتصال قائماً والشاشة مقفلة.
     </p>
     <div class="cards">
       <div class="card">
         <div class="ic">🗺️</div>
         <h3>الخريطة على الويب</h3>
-        <p>نفس خريطة التطبيق تعمل بأي متصفح بلا تثبيت. جرّبها الآن.</p>
+        <p>الخريطة نفسها تعمل في أي متصفح دون تثبيت، بكامل البحث والتوجيه.</p>
         <div class="spec"><a href="map/" style="color:var(--amber); text-decoration:none">افتح الخريطة ←</a></div>
       </div>
       <div class="card">
         <div class="ic">📱</div>
-        <h3>آيفون</h3>
-        <p>تطبيق أصلي لأن بلوتوث الويب غير موجود على iOS، ولأن الإشعار يجب أن يصل والشاشة مقفلة.</p>
-        <div class="spec">يُثبَّت عبر Sideloadly حالياً</div>
+        <h3>iOS</h3>
+        <p>تطبيق مستقل، لأن بلوتوث الويب غير متاح على المنصّة، ولأن الإنذار يجب أن يصل والشاشة مقفلة.</p>
+        <div class="spec">قيد التوزيع التجريبي</div>
       </div>
       <div class="card">
         <div class="ic">🤖</div>
         <h3>أندرويد</h3>
-        <p>نفس التطبيق، ومعه يعمل بلوتوث الويب بالمتصفح أيضاً إن فضّلت الخريطة مباشرة.</p>
-        <div class="spec">ملف APK مباشر</div>
+        <p>التطبيق ذاته، ويعمل بلوتوث الويب على المتصفح أيضاً لمن يفضّل الخريطة مباشرة.</p>
+        <div class="spec">حزمة تثبيت مباشرة</div>
       </div>
     </div>
   </div>
@@ -365,7 +373,6 @@
 <footer>
   <div class="wrap foot">
     <div>VeloSense · مشروع تخرّج · الرياض</div>
-    <div>بيانات الخريطة من <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a></div>
   </div>
 </footer>
 
