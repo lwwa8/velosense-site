@@ -34,6 +34,8 @@
   section{padding:clamp(56px,9vw,104px) 0; border-top:1px solid var(--line)}
   h2{font-size:clamp(23px,3.4vw,34px); font-weight:800; margin:0 0 10px; letter-spacing:-.02em}
   .lede{color:var(--ink2); font-size:clamp(15px,1.7vw,17px); max-width:64ch; margin:0 0 34px}
+  /* حين تكون الفقرة آخر ما بالقسم فلا شيء تفصله عنه — والهامش يصير فراغاً بلا وظيفة */
+  .lede:last-child{margin-bottom:0}
   .eyebrow{
     font-family:var(--mono); font-size:11.5px; letter-spacing:.16em;
     color:var(--amber); text-transform:uppercase; margin:0 0 10px;
@@ -131,12 +133,6 @@
     font-family:var(--mono); font-size:11.5px; color:var(--muted); line-height:1.8;
   }
 
-  /* ── إحصاءات ── */
-  .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px; margin-top:34px}
-  .stat{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:20px; text-align:center}
-  .stat b{display:block; font-family:var(--mono); font-size:clamp(24px,4vw,32px); font-weight:800; color:var(--amber); letter-spacing:-.02em}
-  .stat span{font-size:12.5px; color:var(--ink2)}
-
   /* ── السلامة ── */
   .safety{
     background:linear-gradient(rgba(255,71,87,.05),rgba(255,71,87,.05)),var(--panel);
@@ -231,12 +227,6 @@
       ويلتزم باتجاه الشوارع أحادية الاتجاه، ويحدّ من كثرة الانعطاف، لأن مساراً
       بعشرين انعطافة ليس أفضل من آخر أطول قليلاً وأكثر انسيابية.
     </p>
-    <div class="stats">
-      <div class="stat"><b>٤٨٠٧</b><span>موقع قابل للبحث</span></div>
-      <div class="stat"><b>٤</b><span>مستويات تفصيل للخريطة</span></div>
-      <div class="stat"><b>١٤</b><span>مساراً محفوظاً في الوحدة</span></div>
-      <div class="stat"><b>٣٠ ث</b><span>مهلة إلغاء إنذار الحادث</span></div>
-    </div>
   </div>
 </section>
 
