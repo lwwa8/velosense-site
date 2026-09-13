@@ -7,11 +7,11 @@
 <title>VeloSense</title>
 
 <!-- بطاقة المعاينة عند المشاركة على لِنكدإن وغيره -->
-<meta name="author" content="المهندس فهد عاطف الشهري">
-<meta name="description" content="لوحة قيادة ذكية تُثبَّت على مقود الدراجة: توجيه مصمَّم للدرّاجين، قياس لحظي دقيق، ورصد تلقائي للحوادث. مشروع تخرّج — المهندس فهد عاطف الشهري، الرياض.">
+<meta name="author" content="م. فهد عاطف الشهري">
+<meta name="description" content="لوحة قيادة ذكية تُثبَّت على مقود الدراجة: توجيه مصمَّم للدرّاجين، قياس لحظي دقيق، ورصد تلقائي للحوادث. مشروع تخرّج — م. فهد عاطف الشهري، الرياض.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="VeloSense — لوحة قيادة ذكية للدراجات">
-<meta property="og:description" content="توجيه مصمَّم لمسارات الدرّاجين، قياس لحظي دقيق، ورصد تلقائي للحوادث يستدعي المساعدة. مشروع تخرّج — المهندس فهد عاطف الشهري.">
+<meta property="og:description" content="توجيه مصمَّم لمسارات الدرّاجين، قياس لحظي دقيق، ورصد تلقائي للحوادث يستدعي المساعدة. مشروع تخرّج — م. فهد عاطف الشهري.">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
@@ -88,6 +88,20 @@
     width:24px; height:24px; border-radius:7px; display:grid; place-items:center;
     background:var(--amber); color:#0a0d12; font-style:normal; font-size:14px; font-weight:700;
   }
+
+  /* شارة المنشأ. بالأخضر السعودي لا بالكهرماني — لونٌ خاص بها يمنع أن
+     تُقرأ كعنصر واجهة آخر، ويجعلها تُرى بلا أن تزاحم اسم المشروع */
+  .saudi{
+    margin-inline-start:auto; display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--mono); font-size:10px; font-weight:600; letter-spacing:.15em;
+    padding:6px 13px; border-radius:99px; white-space:nowrap;
+    border:1px solid rgba(0,108,53,.5); background:rgba(0,108,53,.14); color:#4fc27d;
+  }
+  .saudi::before{
+    content:''; width:6px; height:6px; border-radius:50%;
+    background:#006C35; box-shadow:0 0 0 2.5px rgba(0,108,53,.28);
+  }
+  @media (max-width:560px){ .saudi{font-size:9px; letter-spacing:.1em; padding:5px 10px} }
 
   .hero-grid{display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(30px,5vw,60px); align-items:center}
   @media (max-width:840px){ .hero-grid{grid-template-columns:1fr; gap:38px} }
@@ -195,7 +209,10 @@
 <div class="wrap">
 
   <section class="hero">
-    <div class="brandline"><i>V</i> VELOSENSE</div>
+    <div class="brandline">
+      <i>V</i> VELOSENSE
+      <span class="saudi">صُنع في السعودية</span>
+    </div>
 
     <div class="hero-grid">
       <div>
@@ -355,8 +372,8 @@
     <div class="author">
       <div>
         <span class="role">إعــداد</span>
-        <b>المهندس فهد عاطف الشهري</b>
-        <span class="meta">VELOSENSE · مشروع تخرّج · الرياض</span>
+        <b>م. فهد عاطف الشهري</b>
+        <span class="meta">VELOSENSE · مشروع تخرّج · الرياض · SAUDI MADE</span>
       </div>
       <a class="li" href="https://www.linkedin.com/in/fahad-alshehri-069b17256"
          target="_blank" rel="noopener noreferrer">
