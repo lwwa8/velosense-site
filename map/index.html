@@ -657,11 +657,33 @@ function draw(){
     ctx.font='600 11px "SF Arabic",sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
     const maxTier = tier>=3?2:tier>=2?1:0;
     let drawn=0;
+    /*
+      منع التصادم بين التسميات.
+
+      شبكة الرياض كثيفة، وكانت الأسماء تُرسم فوق بعضها بلا فحص — فتتكدّس
+      عشرات منها مائلةً وعموديةً في مساحة واحدة وتصير كتلة لا تُقرأ.
+      وقارئ الخريطة لا ينتفع باسم يحجبه اسم آخر: عشرون اسماً مقروءاً خير
+      من ستين متراكبة.
+
+      والصندوق هنا غير مُدار وإن كان النص مائلاً — تقريبٌ مقصود: الدقّة
+      الكاملة تحتاج حساب أركان مستطيل مُدار لكل تسمية، وهو ثمن لا يستحقه
+      فرقٌ لا تكاد العين تراه.
+    */
+    const placedLabels=[];
     for(const L of BASE.roadLabels){
       if(L.t>maxTier)continue;
       if(!inView(L.p[0],L.p[1]))continue;
-      if(drawn++>60)break;
+      if(drawn>60)break;
       const x=PX(L.p[1]),y=PY(L.p[0]);
+      const tw=ctx.measureText(L.n).width, th=13;
+      const x0=x-tw/2, y0=y-th/2, x1=x+tw/2, y1=y+th/2;
+      let clash=false;
+      for(const b of placedLabels){
+        if(x0<b[2]&&x1>b[0]&&y0<b[3]&&y1>b[1]){clash=true;break;}
+      }
+      if(clash)continue;
+      placedLabels.push([x0,y0,x1,y1]);
+      drawn++;
       ctx.save(); ctx.translate(x,y); ctx.rotate(-L.a*R2D);
       ctx.lineWidth=3; ctx.strokeStyle='rgba(11,14,19,.85)'; ctx.strokeText(L.n,0,0);
       ctx.fillStyle='rgba(238,241,244,.75)'; ctx.fillText(L.n,0,0);
@@ -1172,6 +1194,13 @@ $('go').onclick=sendRouteToDevice;
 // ═══════════ الموقع ═══════════
 function setStart(la,lo){me={lat:la,lon:lo};draw();if(dest)choose(dest);}
 function enterPick(){pickMode=true;$('gps').classList.add('picking');showToast('تعذّر تحديد الموقع — اضغط الخريطة لتحديد انطلاقك');}
+/*
+  آخر لحظة بُثّ فيها موقع حقيقي للجهاز.
+
+  watchPosition قد يُطلق عشرات التحديثات بالثانية على بعض الأجهزة، والجهاز
+  يتوقّع نحو تحديث كل ثانية — فنخنق البثّ حتى لا نغرق قناة البلوتوث.
+*/
+let lastGpsSent = 0;
 function locate(explicit){
   if(!navigator.geolocation){if(explicit)enterPick();return;}
   if(explicit)showToast('يحدد موقعك…');
@@ -1179,6 +1208,24 @@ function locate(explicit){
   watchId=navigator.geolocation.watchPosition(pos=>{
     gotFix=true;toast.hidden=true;pickMode=false;$('gps').classList.remove('picking');$('gps').classList.add('live');
     setStart(pos.coords.latitude,pos.coords.longitude);
+    /*
+      بثّ الموقع الحقيقي للجهاز.
+
+      بلا هذا السطر تبقى بوصلة الجهاز على شاشة الانتظار أبداً: فالفيرموير
+      يشترط nav.live() لرسمها، وهي لا تصير true إلا بوصول موقع. وكان
+      sendGpsPos يُستدعى من حلقة المحاكاة وحدها — فتعمل البوصلة بالمحاكاة
+      ولا تعمل في الاستعمال الحقيقي، وهو أسوأ نوع من الأعطال: يمرّ من
+      الاختبار سليماً ويسقط في الميدان.
+
+      ولا نبثّ أثناء المحاكاة لئلا يتنازع مصدران على موقع واحد.
+    */
+    if (transport && !simTimer) {
+      const now = Date.now();
+      if (now - lastGpsSent > 900) {
+        lastGpsSent = now;
+        sendGpsPos(pos.coords.latitude, pos.coords.longitude).catch(() => {});
+      }
+    }
     if(firstFix){firstFix=false;fitBounds(me.lat-.012,me.lat+.012,me.lon-.012,me.lon+.012,30);showToast('تم تحديد موقعك',1400);}
   },()=>{if(!gotFix)enterPick();},{enableHighAccuracy:true,timeout:12000,maximumAge:5000});
 }
