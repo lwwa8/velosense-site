@@ -670,10 +670,24 @@ function draw(){
       فرقٌ لا تكاد العين تراه.
     */
     const placedLabels=[];
+    /*
+      كم مرة ظهر كل اسم في هذا الإطار.
+
+      الشارع الطويل يحمل تسميات كثيرة موزّعة على طوله، فيتكرّر اسمه أربع
+      مرات أو خمساً في الشاشة الواحدة. ومنع التصادم لا يمنع ذلك لأن النسخ
+      متباعدة ولا تتلامس.
+
+      والتكرار لا يضيف معلومة: من قرأ «طريق الملك سلمان» مرة عرف الشارع.
+      بل يزاحم أسماء شوارع أخرى لم تظهر بعد. فنسمح بمرتين كحدّ أقصى —
+      مرتان تفيدان حين يعبر الشارعُ الشاشةَ من طرف إلى طرف، والثالثة حشو.
+    */
+    const nameCount = new Map();
+    const MAX_PER_NAME = 2;
     for(const L of BASE.roadLabels){
       if(L.t>maxTier)continue;
       if(!inView(L.p[0],L.p[1]))continue;
       if(drawn>60)break;
+      if((nameCount.get(L.n)||0) >= MAX_PER_NAME)continue;
       const x=PX(L.p[1]),y=PY(L.p[0]);
       const tw=ctx.measureText(L.n).width, th=13;
       const x0=x-tw/2, y0=y-th/2, x1=x+tw/2, y1=y+th/2;
@@ -683,6 +697,7 @@ function draw(){
       }
       if(clash)continue;
       placedLabels.push([x0,y0,x1,y1]);
+      nameCount.set(L.n, (nameCount.get(L.n)||0) + 1);
       drawn++;
       ctx.save(); ctx.translate(x,y); ctx.rotate(-L.a*R2D);
       ctx.lineWidth=3; ctx.strokeStyle='rgba(11,14,19,.85)'; ctx.strokeText(L.n,0,0);
